@@ -7,7 +7,7 @@ using Android.Util;
 using Java.IO;
 
 namespace AndroidBlankApp4
-{
+{ 
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
