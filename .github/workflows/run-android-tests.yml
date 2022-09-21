@@ -33,7 +33,7 @@ jobs:
       - name: Build Test App
         timeout-minutes: 20
         env:
-          TEST_PROJECT: AndroidBlankApp4\AndroidBlankApp4\AndroidBlankApp4.csproj
+          TEST_PROJECT: AndroidBlankApp4/AndroidBlankApp4/AndroidBlankApp4.csproj
         run: |
           mono ${{ env.MSBUILD }} /v:m /t:Restore /p:CI_ANDROID=true ${{ env.TEST_PROJECT }}
           mono ${{ env.MSBUILD }} /v:m /t:Clean /t:SignAndroidPackage ${{ env.TEST_PROJECT }} /nowarn:CS8632%3BCS8600%3BCS8602%3BCS8604 /p:Configuration=Release /p:Constants=CI /p:CI_ANDROID=true /p:TargetFramework=monoandroid12.0
