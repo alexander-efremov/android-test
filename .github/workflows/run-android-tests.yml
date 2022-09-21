@@ -36,11 +36,12 @@ jobs:
           TEST_PROJECT: AndroidBlankApp4/AndroidBlankApp4/AndroidBlankApp4.csproj
         run: |
           mono ${{ env.MSBUILD }} /v:m /t:Restore /p:CI_ANDROID=true ${{ env.TEST_PROJECT }}
-          mono ${{ env.MSBUILD }} /v:m /t:Clean /t:SignAndroidPackage ${{ env.TEST_PROJECT }} /nowarn:CS8632%3BCS8600%3BCS8602%3BCS8604 /p:Configuration=Release /p:Constants=CI /p:CI_ANDROID=true /p:TargetFramework=monoandroid12.0
+          mono ${{ env.MSBUILD }} /v:m /t:Clean /t:SignAndroidPackage ${{ env.TEST_PROJECT }} /nowarn:CS8632%3BCS8600%3BCS8602%3BCS8604 /p:Configuration=Release /p:TargetFramework=monoandroid12.0
+          ls AndroidBlankApp4/AndroidBlankApp4/bin/Release
 
       - name: Run Tests
         env:
-          TEST_APK: EnjinWallet.UnitTests.Android/bin/Release/com.enjin.wallet.unittests.android-Signed.apk
+          TEST_APK: AndroidBlankApp4/AndroidBlankApp4/bin/Release/AndroidBlankApp4-Signed.apk
         timeout-minutes: 40
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -52,7 +53,7 @@ jobs:
             echo "Install the app to emulator"
             adb install -g ${{ env.TEST_APK }}
             echo "Run the tests"
-            adb shell am start -W -n com.enjin.wallet.unittests.android/crc64df16e6c1d79849d0.MainActivity &
+            adb shell am start -W -n com.AndroidBlankApp4.android/crc64df16e6c1d79849d0.MainActivity &
             adb logcat -d > log.log
       
       - name: Upload Logs

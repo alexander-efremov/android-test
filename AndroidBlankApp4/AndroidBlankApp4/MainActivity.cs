@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Android.App;
-using Android.Nfc;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Util;
