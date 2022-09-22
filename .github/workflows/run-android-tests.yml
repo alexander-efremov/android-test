@@ -35,7 +35,7 @@ jobs:
 
       - name: Run Tests
         env:
-          TEST_APK: AndroidBlankApp4/AndroidBlankApp4/bin/Release/AndroidBlankApp4-Signed.apk
+          TEST_APK: AndroidBlankApp4/AndroidBlankApp4/bin/Release/AndroidBlankApp4.AndroidBlankApp4-Signed.apk
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 31
