@@ -35,7 +35,7 @@ jobs:
           echo "UNITTESTS Total: 2607/0 452.55" > ${{ env.TESTS_LOG }}
           cat ${{ env.TESTS_LOG }}
           NUMBER_OF_RUNNED_TESTS=$(cat ${{ env.TESTS_LOG }} | awk -F'[^0-9]+' '{ print $2 }')
-          if [ -z "${NUMBER_OF_RUNNED_TESTS}" ]; then NUMBER_OF_RUNNED_TESTS=0; fi
+          if [ -z "$NUMBER_OF_RUNNED_TESTS" ]; then NUMBER_OF_RUNNED_TESTS=0; fi
           echo "if [ "$NUMBER_OF_RUNNED_TESTS" -lt ${{ env.THRESHOLD_NUMBER_OF_TESTS }} ]; then echo "Number of runned tests ($NUMBER_OF_RUNNED_TESTS) is less than the threshold value ${{ env.THRESHOLD_NUMBER_OF_TESTS }}."; exit 1; else echo hi; fi"
           if [ "$NUMBER_OF_RUNNED_TESTS" -lt ${{ env.THRESHOLD_NUMBER_OF_TESTS }} ]; then echo "Number of runned tests ($NUMBER_OF_RUNNED_TESTS) is less than the threshold value ${{ env.THRESHOLD_NUMBER_OF_TESTS }}."; exit 1; else echo hi; fi
           # mono ${{ env.MSBUILD }} /v:m /t:Restore /p:CI_ANDROID=true ${{ env.TEST_PROJECT }}
