@@ -13,11 +13,9 @@ namespace AndroidBlankApp4
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
             var absolutePath = Environment.GetExternalStoragePublicDirectory(Environment.DirectoryDownloads).AbsolutePath;
-            var file = new File(absolutePath, "logcat-full.log");
-            using OutputStream os = new FileOutputStream(file, true);
+            using OutputStream os = new FileOutputStream(new File(absolutePath, "logcat-full.log"), true);
             os.Write(Encoding.UTF8.GetBytes("text"));
             os.Close();
             Log.Error("AndroidBlankApp4", absolutePath + "logcat-full.log");

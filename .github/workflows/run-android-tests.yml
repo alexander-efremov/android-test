@@ -14,7 +14,6 @@ on:
 jobs:
   RunAndroidTests:
     runs-on: macos-latest
-    timeout-minutes: 90
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,15 +24,10 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-      - name: Set Environment Variables
-        run: |
-          MSBUILD="/Applications/Visual\ Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll"
-          echo "MSBUILD=$MSBUILD" >> $GITHUB_ENV
-
       - name: Build Test App
-        timeout-minutes: 20
         env:
           TEST_PROJECT: AndroidBlankApp4/AndroidBlankApp4/AndroidBlankApp4.csproj
+          MSBUILD: "/Applications/Visual\ Studio.app/Contents/MonoBundle/MSBuild/Current/bin/MSBuild.dll"
         run: |
           mono ${{ env.MSBUILD }} /v:m /t:Restore /p:CI_ANDROID=true ${{ env.TEST_PROJECT }}
           mono ${{ env.MSBUILD }} /v:m /t:Clean /t:SignAndroidPackage ${{ env.TEST_PROJECT }} /nowarn:CS8632%3BCS8600%3BCS8602%3BCS8604 /p:Configuration=Release /p:TargetFramework=monoandroid12.0
@@ -42,18 +36,17 @@ jobs:
       - name: Run Tests
         env:
           TEST_APK: AndroidBlankApp4/AndroidBlankApp4/bin/Release/AndroidBlankApp4-Signed.apk
-        timeout-minutes: 40
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: 31
           target: google_apis
           arch: x86_64
           script: |
-            install -m 777 /dev/null log.log
+            ls AndroidBlankApp4/AndroidBlankApp4/bin/Release/
             echo "Install the app to emulator"
             adb install -g ${{ env.TEST_APK }}
             echo "Run the tests"
-            adb shell am start -W -n com.AndroidBlankApp4.android/crc64df16e6c1d79849d0.MainActivity &
+            adb shell am start -W -n com.AndroidBlankApp4.android/crc64df16e6c1d79849d0.MainActivity
             adb logcat -d > log.log
       
       - name: Upload Logs
