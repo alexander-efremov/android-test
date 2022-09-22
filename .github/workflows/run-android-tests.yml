@@ -18,12 +18,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Java 11
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-
       - name: Build Test App
         env:
           TEST_PROJECT: AndroidBlankApp4/AndroidBlankApp4/AndroidBlankApp4.csproj
@@ -36,11 +30,7 @@ jobs:
           cat ${{ env.TESTS_LOG }}
           NUMBER_OF_RUNNED_TESTS=$(cat ${{ env.TESTS_LOG }} | awk -F'[^0-9]+' '{ print $2 }')
           if [ -z "$NUMBER_OF_RUNNED_TESTS" ]; then NUMBER_OF_RUNNED_TESTS=0; fi
-          echo "if [ "$NUMBER_OF_RUNNED_TESTS" -lt ${{ env.THRESHOLD_NUMBER_OF_TESTS }} ]; then echo "Number of runned tests ($NUMBER_OF_RUNNED_TESTS) is less than the threshold value ${{ env.THRESHOLD_NUMBER_OF_TESTS }}."; exit 1; else echo hi; fi"
           if [ "$NUMBER_OF_RUNNED_TESTS" -lt ${{ env.THRESHOLD_NUMBER_OF_TESTS }} ]; then echo "Number of runned tests ($NUMBER_OF_RUNNED_TESTS) is less than the threshold value ${{ env.THRESHOLD_NUMBER_OF_TESTS }}."; exit 1; else echo hi; fi
-          # mono ${{ env.MSBUILD }} /v:m /t:Restore /p:CI_ANDROID=true ${{ env.TEST_PROJECT }}
-          # mono ${{ env.MSBUILD }} /v:m /t:Clean /t:SignAndroidPackage ${{ env.TEST_PROJECT }} /nowarn:CS8632%3BCS8600%3BCS8602%3BCS8604 /p:Configuration=Release /p:TargetFramework=monoandroid12.0
-          # ls AndroidBlankApp4/AndroidBlankApp4/bin/Release
 
       # - name: Run Tests
       #   env:
